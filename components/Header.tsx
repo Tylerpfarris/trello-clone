@@ -5,6 +5,7 @@ import React from 'react';
 import Avatar from 'react-avatar';
 import TrelloLogo from '@/public/images/TrelloLogo.png';
 import { MagnifyingGlassIcon, UserCircleIcon } from '@heroicons/react/24/solid';
+import GPTLoadingBlurb from './GPTLoadingBlurb';
 
 const trello_blue = '#0179BF';
 
@@ -32,19 +33,7 @@ function Header() {
           <Avatar name="Tyler Farris" round size="50" color={trello_blue} />
         </div>
       </div>
-      <div
-        className="flex items-center justify-center px-5 py-2 md:py-2
-      "
-      >
-        <p
-          className={`flex items-center text-sm p-5 font-light pr-5 shadow-xl rounded-xl w-fit bg-white italic max-w-3xl text-[${trello_blue}]`}
-        >
-          <UserCircleIcon
-            className={`inline-block h-10 w-10 text-[${trello_blue}] mr-1`}
-          />
-          GPT is summarizing your tasks for the day...
-        </p>
-      </div>
+      <GPTLoadingBlurb />
     </header>
   );
 }
