@@ -43,7 +43,7 @@ function Column({ id, todos, index }: Props) {
                   </span>
                 </h2>
                 <div className="space-y-2">
-                  {todos.map((todo, inex) => (
+                  {todos.map((todo, index) => (
                     <Draggable
                       key={todo.$id}
                       draggableId={todo.$id}
@@ -54,8 +54,8 @@ function Column({ id, todos, index }: Props) {
                           todo={todo}
                           index={index}
                           id={id}
-                          {...provided.dragHandleProps}
-                          {...provided.draggableProps}
+                          dragHandleProps={provided.dragHandleProps}
+                          draggableProps={provided.draggableProps}
                           innerRef={provided.innerRef}
                         />
                       )}
