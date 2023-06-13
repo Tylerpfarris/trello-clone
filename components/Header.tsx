@@ -1,15 +1,20 @@
 'use client';
 
 import Image from 'next/image';
-import React from 'react';
 import Avatar from 'react-avatar';
 import TrelloLogo from '@/public/images/TrelloLogo.png';
-import { MagnifyingGlassIcon, UserCircleIcon } from '@heroicons/react/24/solid';
+import { MagnifyingGlassIcon } from '@heroicons/react/24/solid';
 import GPTLoadingBlurb from './GPTLoadingBlurb';
+import { useBoardStore } from '@/store/BoardStore';
 
 const trello_blue = '#0179BF';
 
 function Header() {
+  const [searchString, setSearchString] = useBoardStore((state) => [
+    state.searchString,
+    state.setSearchString,
+  ]);
+
   return (
     <header>
       <div className="flex flex-col md:flex-row items-center p-5 bg-gray-500/10 rounded-b-2xl">
@@ -29,6 +34,8 @@ function Header() {
               type="text"
               placeholder="Search"
               className="flex-1 outline-none p-2"
+              value={searchString}
+              onChange={(e) => setSearchString(e.target.value)}
             />
             <button hidden></button>
           </form>
