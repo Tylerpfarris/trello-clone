@@ -16,7 +16,7 @@ interface Todo {
   $id: string;
   $permissions: string[];
   $updatedAt: string;
-  image?: string;
+  image?: Image;
   status: TypedColumn;
   title: string;
 }
