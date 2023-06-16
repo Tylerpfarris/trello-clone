@@ -6,6 +6,22 @@ import { DragDropContext, DropResult, Droppable } from 'react-beautiful-dnd';
 import Column from './Column';
 import { todo } from 'node:test';
 
+const columnOrder: TypedColumn[] = ['todo', 'in_progress', 'done'];
+
+const checkSameOrder = (arr1: TypedColumn[], arr2: string[]) => {
+  if (arr1.length !== arr2.length) {
+    return false;
+  }
+
+  for (let i = 0; i < arr1.length; i++) {
+    if (arr1[i] !== arr2[i]) {
+      return false;
+    }
+  }
+
+  return true;
+};
+
 function Board() {
   const [board, getBoard, setBoardState, updateTodoInDB] = useBoardStore(
     (state) => [
@@ -20,19 +36,34 @@ function Board() {
     const { destination, source, type } = result;
     if (!destination) return;
     if (type === 'column') {
+      let rearrangedColumns;
+
       const entries = Array.from(board.columns.entries());
       const [removed] = entries.splice(source.index, 1);
+
       entries.splice(destination.index, 0, removed);
-      const rearrangedColumns = new Map(entries);
+
+      const newEntriesOrder = entries.map(([id]) => id);
+      //console.log(`newEntriesOrder==========`, newEntriesOrder);
+      if (!checkSameOrder(columnOrder, newEntriesOrder)) {
+        const newEntries: [TypedColumn, Column][] = entries.map(
+          ([id, todo], i) => {
+            console.log(`id, todos==========`, id, todo);
+            return [columnOrder[i], { id: columnOrder[i], todos: todo.todos }];
+          }
+        );
+
+        rearrangedColumns = new Map(newEntries);
+      } else {
+        rearrangedColumns = new Map(entries);
+      }
+
       setBoardState({ ...board, columns: rearrangedColumns });
     }
 
     const columns = Array.from(board.columns);
-    console.log(`columns==========`, columns);
     const startColIndex = columns[Number(source.droppableId)];
-    console.log(`startColIndex==========`, startColIndex);
     const finishColIndex = columns[Number(destination.droppableId)];
-    console.log(`finishColIndex==========`, finishColIndex);
     if (!startColIndex || !finishColIndex) return;
 
     const startCol: Column = {

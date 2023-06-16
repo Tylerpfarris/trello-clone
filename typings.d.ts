@@ -1,5 +1,5 @@
 interface Board {
-  columns: Map<TypeColumn, Column>;
+  columns: Map<TypedColumn, Column>;
 }
 
 type TypedColumn = 'todo' | 'in_progress' | 'done';
@@ -16,7 +16,7 @@ interface Todo {
   $id: string;
   $permissions: string[];
   $updatedAt: string;
-  image?: Image;
+  image?: Image | File;
   status: TypedColumn;
   title: string;
 }

@@ -112,10 +112,12 @@ const useBoardStore = create<BoardState>()((set, get) => ({
     newColumns.get(id)?.todos.splice(taskIndex, 1);
 
     set({ board: { columns: newColumns } });
-
     if (todo.image) {
-      console.log(todo);
-      await storage.deleteFile(todo.image.bucketId, todo.image.fileId);
+      const image = {
+        bucketId: todo.image.bucketId,
+        fileId: todo.image.fileId,
+      };
+      await storage.deleteFile(image.bucketId, image.fileId);
     }
 
     await database.deleteDocument(
